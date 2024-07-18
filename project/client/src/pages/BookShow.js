@@ -15,23 +15,23 @@ const BookShow = () => {
   const [selectedSeats, setSelectedSeats] = useState([]);
   const params = useParams();
   const navigate = useNavigate();
-  const getData = async () => {
-    try {
-      dispatch(showLoading());
-      const response = await getShowById({ showId: params.id });
-      if (response.success) {
-        setShow(response.data);
-        // message.success(response.message);
-        console.log(response.data);
-      } else {
-        message.error(response.message);
-      }
-      dispatch(hideLoading());
-    } catch (err) {
-      message.error(err.message);
-      dispatch(hideLoading());
-    }
-  };
+  // const getData = async () => {
+  //   try {
+  //     dispatch(showLoading());
+  //     const response = await getShowById({ showId: params.id });
+  //     if (response.success) {
+  //       setShow(response.data);
+  //       // message.success(response.message);
+  //       console.log(response.data);
+  //     } else {
+  //       message.error(response.message);
+  //     }
+  //     dispatch(hideLoading());
+  //   } catch (err) {
+  //     message.error(err.message);
+  //     dispatch(hideLoading());
+  //   }
+  // };
 
   const getSeats = () => {
     let columns = 12;
@@ -45,8 +45,7 @@ const BookShow = () => {
             Screen this side, you will be watching in this direction
           </p>
           <div className="screen-div"></div>
-        </div>
-        <ul className="seat-ul justify-content-center">
+          <ul className="seat-ul justify-content-center">
           {Array.from(Array(rows).keys()).map((row) => {
             return Array.from(Array(columns).keys()).map((column) => {
               let seatNumber = row * columns + column + 1;
@@ -106,6 +105,8 @@ const BookShow = () => {
             });
           })}
         </ul>
+        </div>
+        
 
         <div className="d-flex bottom-card justify-content-between w-100 max-width-600 mx-auto mb-25px mt-3">
           <div className="flex-1">

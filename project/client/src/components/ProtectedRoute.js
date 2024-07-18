@@ -13,8 +13,9 @@ import {
 } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import { setUser } from "../redux/userSlice";
+import { use } from "bcrypt/promises";
 
-function ProtectedRoute({ children }) {
+function ProtectedRoute({ children , requiredRole }) {
   const { user } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -23,6 +24,15 @@ function ProtectedRoute({ children }) {
     {
       label: "Home",
       icon: <HomeOutlined />,
+      onClick:()=>{
+        if(user.role === 'admin'){
+        navigate("/admin");}
+        else if (user.role === 'partner') {
+          navigate("/partner");
+        } else {
+          navigate("/");
+        }
+      }
     },
 
     {
@@ -87,6 +97,20 @@ function ProtectedRoute({ children }) {
     }
   }, []);
 
+  useEffect(() => {
+    if(user && requiredRole && user.role !== requiredRole){
+      message.error("You are not authorized to view this page");
+      if(user.role === 'admin'){
+        navigate("/admin");
+      }else if(user.role === 'partner'){
+        navigate("/partner");
+
+      }else{
+        navigate("/");
+      }
+    }
+
+  }, [user , requiredRole]);
   return (
     user && (
       <>
